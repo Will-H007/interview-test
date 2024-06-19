@@ -23,7 +23,7 @@ Minor libraries: TextField, ClearIcon, IconButton, InputAdornment and ReactAudio
 If I had more time, I might do the following:
     1. Measure performance of the code thoroughly
     2. Maybe make the searchbar more user friendly
-    3. Spend more time in the UI/design
+    3. Spend more time in the UI/design and improve the scaling of the UI(i.e. for the audio I am using the ReactAudioPlayer library but it initially gives a different look than the design in the screenshot)
 
 ### Q) Which parts are you most proud of? And why?
 Getting the filtered data send back from the server to the content page since even though I got stuck a bit I preserver it.
