@@ -52,31 +52,12 @@ app.get("/", (req, res) => {
 
   }
 
-app.get("/api/sermon/search", async (req, res) => {
- // res.json({ message: 'POST request to /api/sermon/query received' });
- try {
-
-  // TODO: filter results based on query parameters.
-
-  res.json(sermonData);
-  
-} catch (err) {
-  res.status(500).send(err);
-  console.error(err);
-}
-});
-
-
 // Allow the client to post query for searching
-app.post('/api/sermon/query', (req, res) => {
+app.post('/api/sermon/search', (req, res) => {
 
-  try {
-  
-   
+  try { 
     // // TODO: filter results based on query parameters.
     var filteredData = sermonData.sermons.filter(item => searchWordInSermon(item, req.body.query))
-
-    
     res.json(filteredData);
 
   } catch (err) {
