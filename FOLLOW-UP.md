@@ -4,8 +4,10 @@
 Major libraries: React, ReactDom, useState and useEffect
     - React: Essential for building React components, managing component state, and handling lifecycle methods.
     - ReactDom: Render a React element into a DOM node. The Document Object Model (DOM) is an application programming interface (API) for HTML and XML documents. It defines the logical structure of documents and the way a document is accessed and manipulated(e.g. event handling)
+    - The useState hook is used to initialize a state variable called data . This variable will store the data retrieved from an API endpoint. 
+    - The useEffect hook is used to request data from the API endpoint once the component initially renders.
 Minor libraries: TextField, ClearIcon, IconButton, InputAdornment and ReactAudioPlayer
-    - These are just UI libraries for the design
+    - These are just UI libraries for the design(the ReactAudioPlayer is used for the integrating audio into the app)
 ### Q) What is the command to run the project (only required if you changed the process)?
 
 (Default) `docker-compose up --build`
