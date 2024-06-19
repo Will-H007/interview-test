@@ -46,6 +46,7 @@ app.get("/", (req, res) => {
   function searchWordInSermon(item, word){
 
     return (
+      // If the string exist in either the title, sermon series or preacher name then return true
       searchWordInString("caseInsensitive", item.title, word) || searchWordInString("caseInsensitive", item.series, word) || searchWordInString("caseInsensitive", item.preacher, word)
       
     );
