@@ -5,6 +5,7 @@ const express = require("express");
 const sermonData = require("./fixture-sermon-data");
 
 const app = express();
+app.use(express.json());
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -34,22 +35,21 @@ app.get("/", (req, res) => {
         let regex = new RegExp(`\\b${word}\\b`, 'i'); // 'i' for case insensitive, '\\b' for word boundary
         return regex.test(str);
       case 'caseInsensitive':
-        return str.toLowerCase().includes(word.toLowerCase());
+        str = str.toLocaleLowerCase();
+        word = word.toLocaleLowerCase();
+        return str.includes(word);
       default:
         return false;
     }
   }
 
-  function searchWordInSermon( item, word){
-    if(searchWordInString("includes", word, item.title)){
-      return item
-    }
-    else if(searchWordInString("includes", word, item.series)){
-      return item
-    }
-    else if(esarchWordInString("includes", word, item.preacher)){
-      return item
-    }
+  function searchWordInSermon(item, word){
+
+    return (
+      searchWordInString("caseInsensitive", item.title, word) || searchWordInString("caseInsensitive", item.series, word) || searchWordInString("caseInsensitive", item.preacher, word)
+      
+    );
+
   }
 
 app.get("/api/sermon/search", async (req, res) => {
@@ -57,26 +57,8 @@ app.get("/api/sermon/search", async (req, res) => {
  try {
 
   // TODO: filter results based on query parameters.
-  const { title, series, preacher, datePreached } = req.query;
-  let filteredData = sermonData;
 
-  if (title) {
-    filteredData = filteredData.filter(sermon => sermon.title.toLowerCase().includes(title.toLowerCase()));
-  }
-
-  if (series) {
-    filteredData = filteredData.filter(sermon => sermon.series.toLowerCase().includes(series.toLowerCase()));
-  }
-
-  if (preacher) {
-    filteredData = filteredData.filter(sermon => sermon.preacher.toLowerCase().includes(preacher.toLowerCase()));
-  }
-
-  if (datePreached) {
-    filteredData = filteredData.filter(sermon => sermon.datePreached === datePreached);
-  }
-
-  res.json(filteredData);
+  res.json(sermonData);
   
 } catch (err) {
   res.status(500).send(err);
@@ -86,15 +68,17 @@ app.get("/api/sermon/search", async (req, res) => {
 
 
 // Allow the client to post query for searching
-app.post('/api/sermon/query', async (req, res) => {
- 
-  try {
+app.post('/api/sermon/query', (req, res) => {
 
-    // TODO: filter results based on query parameters.
-    var filteredData = sermonData.filter(item => searchWordInSermon(item, res))
-    console.log(filteredData)
-    res.json(filteredData);
+  try {
+  
+   
+    // // TODO: filter results based on query parameters.
+    var filteredData = sermonData.sermons.filter(item => searchWordInSermon(item, req.body.query))
+
     
+    res.json(filteredData);
+
   } catch (err) {
     res.status(500).send(err);
     console.error(err);
