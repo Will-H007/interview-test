@@ -22,9 +22,6 @@ app.get("/", (req, res) => {
 
   TODO: client should provide params.
   */
-
-
-
   function searchWordInString(method, str, word) {
     switch (method) {
       case 'includes':
